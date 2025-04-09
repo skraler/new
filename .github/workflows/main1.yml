@@ -1,0 +1,33 @@
+name: Ruff Linting
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Ruff and dependencies
+        run: pip install ruff
+
+      # Вариант 1: Автоматическое исправление BOM (рекомендуется)
+      - name: Remove BOM from files (if exists)
+        run: |
+          find . -type f -name "*.py" -exec sed -i '1s/^\xEF\xBB\xBF//' {} \;
+
+      # Вариант 2: Игнорировать E902 (если конвертация нежелательна)
+      # - name: Create ruff.toml to ignore E902
+      #   run: echo -e "[tool.ruff]\nignore = [\"E902\"]" > ruff.toml
+
+      - name: Run Ruff
+        run: ruff check .
