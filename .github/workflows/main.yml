@@ -2,26 +2,24 @@ name: ruff
 
 on:
   push:
-    branches: [ "main", "master" ]  # Триггер на push в main/master
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main", "master" ]  # Триггер на PR в main/master
+    branches: [ "main", "master" ]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Загрузка кода
+      - uses: actions/checkout@v4 
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"  # или актуальная версия
+          python-version: "3.10"
 
       - name: Install Ruff
         run: pip install ruff
 
       - name: Run Ruff
-        run: ruff check .  # Основная проверка
-        # Доп. опции (по желанию):
-        # run: ruff check . --fix  # Автоисправление
-        # run: ruff format .       # Форматирование
+        run: ruff check
+
